@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Profile Card Generator</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>My Little Profile Studio</h1>
+            <p>A little space to create your beautiful profile ♡</p>
+        </header>
+
+        <div class="main-content">
+
+            <!-- Profile Form -->
+            <section class="form-section">
+
+                <h2>Enter Your Details</h2>
+
+                {% if error %}
+                <p class="error">{{ error }}</p>
+                {% endif %}
+
+                <form method="POST" action="/">
+
+                    <label>Full Name *</label>
+                    <input type="text" name="name" placeholder="Enter your name" required>
+
+                    <label>Short Bio *</label>
+                    <textarea name="bio" placeholder="Write something about yourself" required></textarea>
+
+                    <label>Image URL</label>
+                    <input type="url" name="image_url" placeholder="https://example.com/photo.jpg">
+
+                    <label>Job Role</label>
+                    <input type="text" name="job" placeholder="e.g. Software Developer">
+
+                    <label>Location</label>
+                    <input type="text" name="location" placeholder="e.g. Pune, India">
+
+                    <button type="submit">Create My Profile</button>
+
+                </form>
+
+            </section>
+
+
+            <!-- Generated Profile Card -->
+            <section class="preview-section">
+
+                <h2>Profile Preview</h2>
+
+                {% if profile %}
+
+                <div class="profile-card">
+
+                    {% if profile.image_url %}
+                    <img src="{{ profile.image_url }}" alt="Profile picture" class="profile-image">
+                    {% else %}
+                    <div class="default-avatar">
+                        {{ profile.name[0] | upper }}
+                    </div>
+                    {% endif %}
+
+                    <h2>{{ profile.name }}</h2>
+
+                    {% if profile.job %}
+                    <p class="job">{{ profile.job }}</p>
+                    {% endif %}
+
+                    <p class="bio">{{ profile.bio }}</p>
+
+                    {% if profile.location %}
+                    <p class="location">
+                        📍 {{ profile.location }}
+                    </p>
+                    {% endif %}
+
+                </div>
+
+                {% else %}
+
+                <div class="empty-preview">
+                    <div class="empty-icon">👤</div>
+                    <h3>Your profile will appear here</h3>
+                    <p>Fill in the form to generate your card.</p>
+                </div>
+
+                {% endif %}
+
+            </section>
+
+        </div>
+
+        <footer>
+            <p>Created with Python Flask</p>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
